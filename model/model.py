@@ -38,8 +38,27 @@ class Model:
         source = self._idMap[idInput]
 
         # Modo 1: conto i successori
-        succ = nx.dfs_successors(self._graph,source)
-        print(succ)
+        # succ = nx.dfs_successors(self._graph,source)
+        # print("Size connessa con modo 1:",len(res))
+        succ = nx.dfs_successors(self._graph,source).values()
+        res = []
+        for s in succ:
+            res.extend(s)
+        # print("Size connessa con modo 1:",len(res))
+
+        #Modo 2: conto i predecessori
+        pred = nx.dfs_predecessors(self._graph,source)
+        # print("Size connessa con modo 2:",len(pred.values()))
+
+        #Modo 3: conto i nodi dell'albero di visita
+        dfsTree = nx.dfs_tree(self._graph,source)
+        # print("Size connessa con modo 3:",len(dfsTree.nodes())) # è  più grande di  del precedente perché conta il nodo source
+
+        #Modo 4: uso il metodo nodes_connected_components di networkx
+        conn = nx.node_connected_component(self._graph,source)
+        # print("Size connessa con modo 4:",len(conn))
+
+        return len(conn)
 
     def hasNode(self,idInput):
         # return self._idMao[idInput] in self._graph
@@ -50,6 +69,9 @@ class Model:
 
     def getNumEdges(self):
         return len(self._graph.edges())
+
+    def getObjectFromId(self,idInput):
+        return self._idMap[idInput]
 
     # def getIdMap(self):
     #     return self._idMap
