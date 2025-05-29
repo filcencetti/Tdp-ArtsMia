@@ -1,9 +1,6 @@
 import copy
-
 import networkx as nx
-
 from database.DAO import DAO
-
 
 class Model:
     def __init__(self):
@@ -31,7 +28,7 @@ class Model:
 
     def _ricorsione(self, parziale, lun):
         if len(parziale) == lun:
-            #allora parziale ha la lunghezza desiderata,
+            # allora parziale ha la lunghezza desiderata,
             # verifico se è una soluzione migliore,
             # ed in ogni caso esco
             if self.costo(parziale) > self._bestCost:
@@ -41,7 +38,7 @@ class Model:
 
         # se arrivo qui, allora parziale può ancora ammettere altri nodi
         for n in self._graph.neighbors(parziale[-1]):
-            if parziale[-0].classification == n.classification and n not in parziale:
+            if parziale[-0].classification == n.classification and n not in parziale: # [0], [-1] e [-0] sono equivalenti per costruzione
                 parziale.append(n)
                 self._ricorsione(parziale, lun)
                 parziale.pop()
